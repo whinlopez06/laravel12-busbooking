@@ -25,11 +25,18 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Cache Laravel
+# Cache Laravel config/routes/views
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-# Expose port
+# Expose port (Render uses this to detect container port)
 EXPOSE 8000
 
-# Start Laravel server
-CMD php artisan serve --host=0.0.0.0 --port=8000
+# Copy the entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh   # ← IMPORTANT so it can run!
+
+# Set the entrypoint
+ENTRYPOINT ["entrypoint.sh"]
+
+# Start Laravel server AFTER migrations run
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
