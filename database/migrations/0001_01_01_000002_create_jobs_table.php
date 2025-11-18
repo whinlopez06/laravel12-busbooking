@@ -14,11 +14,19 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
-            $table->longText('payload');
-            $table->unsignedTinyInteger('attempts');
-            $table->unsignedInteger('reserved_at')->nullable();
-            $table->unsignedInteger('available_at');
-            $table->unsignedInteger('created_at');
+            // mysql
+            // $table->longText('payload');
+            // $table->unsignedTinyInteger('attempts');
+            // $table->unsignedInteger('reserved_at')->nullable();
+            // $table->unsignedInteger('available_at');
+            // $table->unsignedInteger('created_at');
+
+            // pgsql
+            $table->text('payload');
+            $table->smallInteger('attempts'); // tinyint unsigned -> smallint
+            $table->integer('reserved_at')->nullable();
+            $table->integer('available_at');
+            $table->integer('created_at');
         });
 
         Schema::create('job_batches', function (Blueprint $table) {
@@ -27,8 +35,10 @@ return new class extends Migration
             $table->integer('total_jobs');
             $table->integer('pending_jobs');
             $table->integer('failed_jobs');
-            $table->longText('failed_job_ids');
-            $table->mediumText('options')->nullable();
+            // $table->longText('failed_job_ids');  // commented MySql version
+            // $table->mediumText('options')->nullable();
+            $table->text('failed_job_ids');  // longText -> text (pgsql)
+            $table->text('options')->nullable(); // mediumText -> text (pgsql)
             $table->integer('cancelled_at')->nullable();
             $table->integer('created_at');
             $table->integer('finished_at')->nullable();

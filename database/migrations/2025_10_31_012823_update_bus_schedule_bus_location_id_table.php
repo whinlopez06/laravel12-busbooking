@@ -30,8 +30,13 @@ return new class extends Migration
             //    ->constrained('to_bus_location_id')
             //    ->cascadeOnDelete()->change();
 
-            $table->unsignedBigInteger('from_bus_location_id')->change();
-            $table->unsignedBigInteger('to_bus_location_id')->change();
+            // mysql
+            // $table->unsignedBigInteger('from_bus_location_id')->change();
+            // $table->unsignedBigInteger('to_bus_location_id')->change();
+
+            // pgsql
+            $table->bigInteger('from_bus_location_id')->change();
+            $table->bigInteger('to_bus_location_id')->change();
 
             $table->foreign('from_bus_location_id')
                   ->references('id')
@@ -43,6 +48,10 @@ return new class extends Migration
                   ->on('bus_locations')
                   ->cascadeOnDelete();
 
+            // $table->renameColumn('arrival_date', 'schedule_date');
+        });
+        // Part 2: Separate the Column Rename (HIGHLY RECOMMENDED for PgSQL)
+        Schema::table('bus_schedules', function(Blueprint $table) {
             $table->renameColumn('arrival_date', 'schedule_date');
         });
     }

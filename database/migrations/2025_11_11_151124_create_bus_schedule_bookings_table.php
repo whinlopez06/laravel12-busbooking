@@ -13,18 +13,40 @@ return new class extends Migration
     {
         Schema::create('bus_schedule_bookings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('bus_schedule_id');
-            $table->tinyInteger('seat_number');
+            // mysql
+            // $table->unsignedBigInteger('bus_schedule_id');
+            // $table->tinyInteger('seat_number');
+            // $table->string('fullname');
+            // $table->string('email_address')->nullable();
+            // $table->tinyInteger('age')->nullable();
+            // $table->enum('gender', ['M','F'])->default('M');
+            // $table->timestamps();
+
+            // $table->foreign('bus_schedule_id')
+            // ->references('id')
+            // ->on('bus_schedules')
+            // ->cascadeOnDelete();
+
+            // pgsql
+            // Use foreignId() for the schedule ID
+            $table->foreignId('bus_schedule_id')
+                ->constrained('bus_schedules') // Adds the foreign key and uses BIGINT
+                ->cascadeOnDelete();
+
+            // Use smallInteger() instead of tinyInteger()
+            $table->smallInteger('seat_number');
+
             $table->string('fullname');
             $table->string('email_address')->nullable();
-            $table->tinyInteger('age')->nullable();
-            $table->enum('gender', ['M','F'])->default('M');
+
+            // Use smallInteger() instead of tinyInteger()
+            $table->smallInteger('age')->nullable();
+
+            // Use string/char instead of enum for better flexibility
+            $table->string('gender', 1)->default('M');
+
             $table->timestamps();
 
-            $table->foreign('bus_schedule_id')
-            ->references('id')
-            ->on('bus_schedules')
-            ->cascadeOnDelete();
         });
     }
 

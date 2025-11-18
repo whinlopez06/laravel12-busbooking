@@ -17,8 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(BusOperator::class);
             $table->foreignIdFor(BusDetail::class);
-            $table->unsignedInteger('from_bus_location_id')->index();
-            $table->unsignedInteger('to_bus_location_id')->index();
+            // mysql
+            // $table->unsignedInteger('from_bus_location_id')->index();
+            // $table->unsignedInteger('to_bus_location_id')->index();
+
+            // pgsql
+            $table->integer('from_bus_location_id')->index();
+            $table->integer('to_bus_location_id')->index();
             $table->time('departure_time')->nullable();
             $table->time('arrival_time')->nullable();
             $table->date('arrival_date')->nullable();
