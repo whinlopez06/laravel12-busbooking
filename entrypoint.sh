@@ -19,6 +19,7 @@ echo "✅ Database is ready!"
 
 echo "Clearing config cache..."
 php artisan config:clear
+php artisan cache:clear
 
 echo "Caching Laravel configuration..."
 php artisan config:cache
