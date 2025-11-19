@@ -22,6 +22,7 @@ return [
     // 'allowed_origins' => ['http://localhost:4200'],
 
     'allowed_origins' => [
+    'http://localhost:4200',
     'https://whinlopez06.github.io',
     'https://whinlopez06.github.io/',
     'https://whinlopez06.github.io/angular19-bus-booking',
